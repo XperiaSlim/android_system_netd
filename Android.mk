@@ -40,10 +40,14 @@ LOCAL_CFLAGS := -Werror=format
 LOCAL_SHARED_LIBRARIES := libstlport libsysutils libcutils libnetutils \
                           libcrypto libhardware_legacy libmdnssd libdl
 
-ifdef USES_TI_MAC80211
+ifeq ($(BOARD_TI_SOFTAP),true)
+  LOCAL_SRC_FILES += SoftapControllerTI.cpp
+else
+ifeq ($(USES_TI_MAC80211),true)
   LOCAL_SRC_FILES += SoftapControllerTI.cpp
 else
   LOCAL_SRC_FILES += SoftapController.cpp
+endif
 endif
 
 ifneq ($(BOARD_HOSTAPD_DRIVER),)
